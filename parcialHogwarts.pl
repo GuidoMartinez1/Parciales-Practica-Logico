@@ -100,7 +100,7 @@ puedenQuedarEnLaMismaCasa(Mago1, Mago2, Casa):-
     puedeQuedarSeleccionadoPara(Mago2, Casa),
     Mago1 \= Mago2.
 */
-%----------------------------------------------------------PUNTO 2 -------------------------------------------------------------------------------------------
+%----------------------------------------------------------PARTE 2 -------------------------------------------------------------------------------------------
 hizo(harry, fueraDeLaCama).
 hizo(hermione, irA(tercerPiso)).
 hizo(hermione, irA(seccionRestringida)).
@@ -137,6 +137,13 @@ puntajeQueGeneraAccion(irA(Lugar), PuntajeNegativo):-
 
 puntajeQueGeneraAccion(buenaAccion(Puntaje,_),Puntaje).
 
+%PUNTO 1 A
 esBuenAlumno(Mago):-
     hizoAlgunaAccion(Mago),
     not(hizoAlgoMalo(Mago)).
+
+%PUNTO 1 B
+esRecurrente(Accion):-
+    hizo(Mago1, Accion),
+    hizo(Mago2, Accion),
+    Mago1 \= Mago2.
