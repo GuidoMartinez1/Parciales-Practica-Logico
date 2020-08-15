@@ -111,6 +111,8 @@ hizo(ron, buenaAccion(50, ganarAlAjedrez)).
 hizo(hermione, buenaAccion(50, salvarASusAmigos)).
 hizo(harry, buenaAccion(60, matarAVoldemort)).
 hizo(neville, buenaAccion(50, ganoQuidich)). %LO INVENTE YO PARA PROBAR
+hizo(hermione, respondePregunta(dondeSeEncuentraBezoar, 20, snape)). %PARA PUNTO 4
+hizo(hermione, respondePregunta(comoLevitarUnaPluma, 25, flitwich)). % PARA PUNTO 4
 
 
 esDe(hermione, gryffindor).
@@ -137,6 +139,12 @@ puntajeQueGeneraAccion(irA(Lugar), PuntajeNegativo):-
     PuntajeNegativo is Puntos * -1.
 
 puntajeQueGeneraAccion(buenaAccion(Puntaje,_),Puntaje).
+
+%PARA PUNTO 4
+puntajeQueGeneraAccion(respondePregunta(_,Dificultad,snape), Puntaje):-
+    Puntaje is Dificultad // 2. %division de un entero
+puntajeQueGeneraAccion(respondePregunta(_,Puntaje,Profe), Puntaje):-
+    Profe \= snape.
 
 %PUNTO 1 A
 esBuenAlumno(Mago):-
