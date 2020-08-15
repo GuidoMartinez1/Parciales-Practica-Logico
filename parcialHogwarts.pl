@@ -147,3 +147,14 @@ esRecurrente(Accion):-
     hizo(Mago1, Accion),
     hizo(Mago2, Accion),
     Mago1 \= Mago2.
+
+puntajeTotalDeLaCasa(Casa,PuntajeTotal):-
+    esDe(_, Casa),
+    findall(Puntos, (esDe(Mago, Casa),puntosQueObtuvo(Mago,_,Puntos)),Puntajes),
+    sum_list(Puntajes, PuntajeTotal).
+    
+puntosQueObtuvo(Mago, Accion, Puntos):-
+    hizo(Mago, Accion),
+    puntajeQueGeneraAccion(Accion, Puntos).
+
+
