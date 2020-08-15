@@ -100,3 +100,43 @@ puedenQuedarEnLaMismaCasa(Mago1, Mago2, Casa):-
     puedeQuedarSeleccionadoPara(Mago2, Casa),
     Mago1 \= Mago2.
 */
+%----------------------------------------------------------PUNTO 2 -------------------------------------------------------------------------------------------
+hizo(harry, fueraDeLaCama).
+hizo(hermione, irA(tercerPiso)).
+hizo(hermione, irA(seccionRestringida)).
+hizo(harry, irA(bosque)).
+hizo(harry, irA(tercerPiso)).
+hizo(draco, irA(mazmorras)).
+hizo(ron, buenaAccion(50, ganarAlAjedrez)).
+hizo(hermione, buenaAccion(50, salvarASusAmigos)).
+hizo(harry, buenaAccion(60, matarAVoldemort)).
+
+
+esDe(hermione, gryffindor).
+esDe(ron, gryffindor).
+esDe(harry, gryffindor).
+esDe(draco, slytherin).
+esDe(luna, ravenclaw).
+
+hizoAlgunaAccion(Mago):-
+    hizo(Mago,_).
+
+hizoAlgoMalo(Mago):-
+    hizo(Mago, Accion),
+    puntajeQueGeneraAccion(Accion, Puntaje),
+    Puntaje < 0.
+
+lugarProhibido(tercerPiso, 75).
+lugarProhibido(seccionRestringida,10).
+lugarProhibido(bosque, 50).
+
+puntajeQueGeneraAccion(fueraDeLaCama, -50).
+puntajeQueGeneraAccion(irA(Lugar), PuntajeNegativo):-
+    lugarProhibido(Lugar, Puntos),
+    PuntajeNegativo is Puntos * -1.
+
+puntajeQueGeneraAccion(buenaAccion(Puntaje,_),Puntaje).
+
+esBuenAlumno(Mago):-
+    hizoAlgunaAccion(Mago),
+    not(hizoAlgoMalo(Mago)).
