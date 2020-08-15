@@ -110,6 +110,7 @@ hizo(draco, irA(mazmorras)).
 hizo(ron, buenaAccion(50, ganarAlAjedrez)).
 hizo(hermione, buenaAccion(50, salvarASusAmigos)).
 hizo(harry, buenaAccion(60, matarAVoldemort)).
+hizo(neville, buenaAccion(50, ganoQuidich)). %LO INVENTE YO PARA PROBAR
 
 
 esDe(hermione, gryffindor).
@@ -117,7 +118,7 @@ esDe(ron, gryffindor).
 esDe(harry, gryffindor).
 esDe(draco, slytherin).
 esDe(luna, ravenclaw).
-
+esDe(neville, hufflepuff). %LO INVENTE YO PARA PROBAR
 hizoAlgunaAccion(Mago):-
     hizo(Mago,_).
 
@@ -148,6 +149,8 @@ esRecurrente(Accion):-
     hizo(Mago2, Accion),
     Mago1 \= Mago2.
 
+%PUNTO 2
+
 puntajeTotalDeLaCasa(Casa,PuntajeTotal):-
     esDe(_, Casa),
     findall(Puntos, (esDe(Mago, Casa),puntosQueObtuvo(Mago,_,Puntos)),Puntajes),
@@ -157,4 +160,15 @@ puntosQueObtuvo(Mago, Accion, Puntos):-
     hizo(Mago, Accion),
     puntajeQueGeneraAccion(Accion, Puntos).
 
+% PUNTO 3
+
+esGanadora(Casa):-
+    puntajeTotalDeLaCasa(Casa, PuntajeMayor),
+    forall((puntajeTotalDeLaCasa(OtraCasa, PuntajeMenor), Casa \= OtraCasa), PuntajeMayor > PuntajeMenor).
+
+%otra forma de resolucion
+
+esGanadora2(Casa):-
+    puntajeTotalDeLaCasa(Casa, PuntajeMayor),
+    not((puntajeTotalDeLaCasa(_,OtroPuntaje), OtroPuntaje > PuntajeMayor)).
 
