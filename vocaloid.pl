@@ -35,3 +35,65 @@ tiempoCancion(Tiempo, Vocaloid):-
     tiempo(Cancion, Tiempo).
 
 tiempo(cancion(_,TiempoCancion), TiempoCancion).
+
+/*
+2-
+Hay algunos vocaloids que simplemente no quieren cantar canciones largas porque no les gusta,
+ es por eso que se pide saber si un cantante es acelerado,
+  condición que se da cuando todas sus canciones duran 4 minutos o menos. Resolver sin usar forall/2.
+*/
+
+esAcelerado(Vocaloid):-
+    canta(Vocaloid,_),
+    not((tiempoCancion(Tiempo, Vocaloid), Tiempo > 4)).
+/*
+Con forall hubiese sido
+
+esAcelerado(Vocaloid):-
+    canta(Vocaloid,_).
+    forall(tiempoCancion(Tiempo, Vocaloid), Tiempo =< 4).
+
+
+concierto(Nombre, Pais, Fama, TipoConcierto).
+gigante(CantMinDeCanciones, DuracionTotalDeLasCanciones).
+mediano(DuracionCanciones).
+pequeño(DuracionDeCancion).
+*/
+concierto(mikuExpo, eeuu, 2000, gigante(2,6)).
+concierto(magicalMirai, japon, 3000, gigante(3,10)).
+concierto(vocalektVisions, eeuu, 1000, mediano(9)).
+concierto(mikuFest, argentina, 100, pequenio(4)).
+
+/*
+Se requiere saber si un vocaloid puede participar en un concierto,
+     esto se da cuando cumple los requisitos del tipo de concierto.
+    También sabemos que Hatsune Miku puede participar en cualquier concierto.
+*/
+puedeParticipar(hatsuneMiku, _).
+
+puedeParticipar(Vocaloid, Concierto):-
+    canta(Vocaloid,_),
+    Vocaloid \= hatsuneMiku,
+    concierto(Concierto,_,_,TipoConcierto),
+    cumpleTipoConcierto(TipoConcierto, Vocaloid).
+
+cantCancionesQueElCantanteDebeSaber(Vocaloid, Cant):-
+    findall(Cancion, canta(Vocaloid,Cancion), Canciones),
+    length(Canciones, Cant).
+
+
+cumpleTipoConcierto(gigante(CantMinDeCanciones, DuracionTotalDeLasCanciones), Vocaloid):-
+    cantCancionesQueElCantanteDebeSaber(Vocaloid, Cant),
+    Cant >= CantMinDeCanciones,
+    tiempoTotalCanciones(TiempoTotal, Vocaloid),
+    TiempoTotal > DuracionTotalDeLasCanciones.
+
+cumpleTipoConcierto(mediano(DuracionCanciones), Vocaloid):-
+    tiempoTotalCanciones(TiempoTotal, Vocaloid),
+    TiempoTotal < DuracionCanciones.
+    
+cumpleTipoConcierto(pequenio(DuracionDeCancion), Vocaloid):-
+    canta(Vocaloid, Cancion),
+    tiempoCancion(Duracion, Cancion),
+    Duracion > DuracionDeCancion.
+
