@@ -97,3 +97,31 @@ cumpleTipoConcierto(pequenio(DuracionDeCancion), Vocaloid):-
     tiempoCancion(Duracion, Cancion),
     Duracion > DuracionDeCancion.
 
+/*
+Conocer el vocaloid más famoso, es decir con mayor nivel de fama. 
+    El nivel de fama de un vocaloid se calcula como
+    la fama total que le dan los conciertos en los cuales puede participar
+     multiplicado por la cantidad de canciones que sabe cantar.
+*/
+
+vocaloidMasFamoso(Vocaloid):-
+    nivelFamoso(Vocaloid, NivelMasFamoso),
+    forall(nivelFamoso(Vocaloid, Nivel), NivelMasFamoso >= Nivel).
+
+
+fama(Concierto, Fama):-
+    concierto(Concierto,_,Fama,_).
+
+famaTotal(Vocaloid, FamaTotal):-
+    canta(Vocaloid,_),
+    findall(Fama, famaConcierto(Vocaloid, Fama), CantidadDeFama),
+    sumlist(CantidadDeFama, FamaTotal).
+
+famaConcierto(Vocaloid, Fama):-
+    puedeParticipar(Vocaloid, Concierto),
+    fama(Concierto, Fama).
+
+nivelFamoso(Vocaloid, NivelMasFamoso):-
+    famaTotal(Vocaloid, FamTotal),
+    cantCancionesQueElCantanteDebeSaber(Vocaloid, Cant),
+    NivelMasFamoso is FamTotal * Cant.
