@@ -125,3 +125,30 @@ nivelFamoso(Vocaloid, NivelMasFamoso):-
     famaTotal(Vocaloid, FamTotal),
     cantCancionesQueElCantanteDebeSaber(Vocaloid, Cant),
     NivelMasFamoso is FamTotal * Cant.
+
+/*Sabemos que:
+megurineLuka conoce a hatsuneMiku  y a gumi 
+gumi conoce a seeU
+seeU conoce a kaito
+
+Queremos verificar si un vocaloid es el único que participa de un concierto,
+ esto se cumple si ninguno de sus conocidos ya sea directo o indirectos (en cualquiera de los niveles)
+  participa en el mismo concierto.
+*/
+
+conoce(megurineLuka, hatsuneMiku).
+conoce(megurineLuka, gumi).
+conoce(gumi, seeU).
+conoce(seeU, kaito).
+
+conocido(Vocaloid, Conocido):-
+    conoce(Vocaloid, UnCantante),
+    conoce(UnCantante, Conocido).
+
+conocido(Vocaloid, Conocido):-
+    conoce(Vocaloid, Conocido).
+
+vocaloidEsUnicoParticipante(Vocaloid, Concierto):-
+    puedeParticipar(Vocaloid, Concierto),
+    not(conocido(Vocaloid, OtroVocaloid)),
+    puedeParticipar(OtroVocaloid, Concierto).
