@@ -152,3 +152,15 @@ vocaloidEsUnicoParticipante(Vocaloid, Concierto):-
     puedeParticipar(Vocaloid, Concierto),
     not(conocido(Vocaloid, OtroVocaloid)),
     puedeParticipar(OtroVocaloid, Concierto).
+
+/*
+Supongamos que aparece un nuevo tipo de concierto y necesitamos tenerlo en cuenta en nuestra solución,
+ explique los cambios que habría que realizar para que siga todo funcionando. 
+ ¿Qué conceptos facilitaron dicha implementación?
+*/
+/* simplemente se agragaría un nuevo functor con el nombre del determinado tipo de concierto y se tendria
+que generar las condiciones correspondientes de como un vocaloid puede participar a ese tipo de concierto.
+El concepto de polimorfismo facilita mucho la implementacion, ya que nos permite dar un tratamiento
+en particular a cada uno de los conciertos.
+
+*/
