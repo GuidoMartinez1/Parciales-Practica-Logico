@@ -19,3 +19,25 @@ satisfaceLaNecesidad(Integrante, aspiradora(PotenciaRequerida)):-
     between(0, Potencia, PotenciaRequerida).
     %Potencia >= PotenciaRequerida. si lo hacia asi no era inversible
 
+/*Punto 3
+    Queremos saber si una persona puede realizar una tarea, que dependerá de las herramientas que tenga.
+    Sabemos que:
+    - Quien tenga una varita de neutrones puede hacer cualquier tarea, 
+        independientemente de qué herramientas requiera dicha tarea.
+    - Alternativamente alguien puede hacer una tarea si puede satisfacer 
+        la necesidad de todas las herramientas requeridas para dicha tarea.*/
+
+puedeRealizarTarea(Persona, Tarea):-
+    tiene(Persona, varitaDeNeutrones),
+    herramientasRequeridas(Tarea, _).
+
+puedeRealizarTarea(Persona, Tarea):-
+    tiene(Persona,_),
+    herramientasRequeridas(Tarea,_),
+    forall(requiereHerramienta(Tarea, Herramienta), satisfaceLaNecesidad(Persona, Herramienta)).
+
+requiereHerramienta(Tarea, Herramienta):-
+    herramientasRequeridas(Tarea, ListaDeHerramientas),
+    member(Herramienta, ListaDeHerramientas).
+
+
