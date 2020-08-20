@@ -84,4 +84,32 @@ Sabemos que Ray sólo acepta pedidos que no incluyan limpiar techos,
 Decimos que una tarea es compleja si requiere más de dos herramientas. 
 Además la limpieza de techos siempre es compleja.*/
 
+aceptarPedido(Trabajador, Cliente):-
+    puedeRealizarLasTareas(Trabajador, Cliente),
+    estaDispuesto(Trabajador, Cliente).
+
+puedeRealizarLasTareas(Trabajador, Cliente):-
+    tareaPedida(_, Cliente,_),
+    tiene(Trabajador,_),
+    forall(tareaPedida(Tarea,Cliente,_), puedeRealizarTarea(Trabajador,Tarea)).
+
+estaDispuesto(ray,Cliente):-
+    not(tareaPedida(limpiarTecho,Cliente,_)).
+
+estaDispuesto(winston, Cliente):-
+    precioACobrar(Cliente, PrecioACobrar),
+    PrecioACobrar > 500.
+
+estaDispuesto(egon, Cliente):-
+    not(tareaPedida(Tarea,Cliente,_)),
+    esTareaCompleja(Tarea).
+
+
+estaDispuesto(peter,_).
+
+esTareaCompleja(Tarea):-
+    herramientasRequeridas(Tarea, Herramientas),
+    length(Herramientas, CantHerramientas),
+    CantHerramientas > 2.
+
 
